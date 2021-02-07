@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Hot or Not Presidents</title>
+</head>
+<body>
+  <h1>HOTUS or NOTUS?</h1>
+  <p>
+    <h3>Vote now!</h3>
+  </p>
+
+  <ul>
+  {% for president in presidents %}
+    <li>
+      <img src="{{ president.image_url }}" alt="A photo of {{ president.name }}" width="150">
+      name: <a href='/vote/{{ president.short_name }}'>{{ president.name }}</a> | score: {{ president.score }}
+    </li>
+  {% endfor %}
+  </ul>
+</body>
+</html>
