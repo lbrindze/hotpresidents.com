@@ -19,13 +19,20 @@
 
     <div id="subtext-container">
       <h2>{{ name }}</h2>
-      <h3>Hotus or Notus?</h3>
+
+      {% if not > hot %}
+      <h3>Notus</h3>
+      {% else %}
+      <h3>Hotus</h3>
+      {% endif %}
+
     </div>
 
     <div id="button-container">
       <div id="button-inner">
-        <a class="btn" href='/vote/{{ short_name }}/hot'>🔥</a>
-        <a class="btn" href='/vote/{{ short_name }}/not'>🤮</a>
+	      <a class="btn" href='/'>{{ hot }}</a>
+	      <a class="btn" href='/'>⏭️</a>
+	      <a class="btn" href='/'>{{ not }}</a>
       </div>
     </div>
 

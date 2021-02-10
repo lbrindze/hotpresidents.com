@@ -1,17 +1,21 @@
+use std::collections::HashMap;
+use std::io::Write;
+use std::sync::Mutex;
+
 use actix_files as fs;
 use actix_web::client::Client;
 use actix_web::http::{header, StatusCode};
 use actix_web::{get, guard, middleware, web, App, HttpResponse, HttpServer, Responder, Result};
+
+use rand::seq::SliceRandom;
+
 use askama::Template;
 use serde::{self, Deserialize};
-
-use std::collections::HashMap;
-use std::sync::Mutex;
 
 const DATA_LOAD_URI: &str =
     "https://api.airtable.com/v0/appWPQd75Wh8IVPa0/Table%201?view=Grid%20view";
 const API_KEY: &str = "keybq7TXDnBmxHzBV";
-const SAVE_FILE: &str = "";
+const SAVE_FILE: &str = "president_votes_state.data";
 
 ///
 /// Internal data models
@@ -87,7 +91,7 @@ impl President {
             name: self.name.to_string(),
             short_name: self.short_name(),
             score: self.score(),
-            image_url: match self.images.iter().next() {
+            image_url: match self.images.get(0) {
                 Some(image) => image.thumbnails.large.url.to_string(),
                 None => "".to_string(),
             },
@@ -100,6 +104,38 @@ type Presidents = HashMap<String, President>;
 fn to_index_items(p: &Presidents) -> Vec<PresidentIndexItem> {
     p.values().map(|p| p.template_item()).collect()
 }
+
+async fn save_state(presidents: &Presidents) {
+    // File::create is blocking operation, use threadpool
+    let mut f = web::block(|| std::fs::File::create(SAVE_FILE))
+        .await
+        .unwrap();
+
+    for president in presidents.values() {
+        let data = format!(
+            "{},{},{}\n",
+            president.short_name(),
+            president.hot,
+            president.not
+        );
+        f = web::block(move || f.write_all(&data.as_bytes()).map(|_| f))
+            .await
+            .unwrap();
+    }
+}
+
+/*
+fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+where P: AsRef<Path>, {
+    let file = File::open(filename)?;
+    Ok(io::BufReader::new(file).lines())
+}
+
+async fn load_state(presidents: &Presidents) {
+    if let Ok(lines) = read_lines("./hosts") {
+    }
+}
+*/
 
 ///
 /// Client for working with Airtables
@@ -168,6 +204,15 @@ struct VoteTemplate<'a> {
 }
 
 #[derive(Template)]
+#[template(path = "stats.html")]
+struct StatsTemplate<'a> {
+    name: &'a str,
+    image_url: &'a str,
+    hot: &'a usize,
+    not: &'a usize,
+}
+
+#[derive(Template)]
 #[template(path = "index.html")]
 struct IndexTemplate {
     presidents: Vec<PresidentIndexItem>,
@@ -185,19 +230,17 @@ struct PresidentIndexItem {
 ///
 
 /// save count data
-/*
 #[get("/save_data")]
 async fn save_data(presidents: web::Data<Mutex<Presidents>>) -> HttpResponse {
     let presidents = presidents.lock().unwrap();
 
-    save(&presidents);
+    save_state(&presidents).await;
 
     HttpResponse::Found()
         .header(header::LOCATION, "/")
         .finish()
         .into_body()
 }
-*/
 
 /// Trigger data reload
 #[get("/reload_data")]
@@ -227,10 +270,39 @@ async fn vote(
         VoteTemplate {
             name: &president.name,
             short_name: &president.short_name(),
-            image_url: match &president.images.iter().next() {
+            image_url: match &president.images.get(0) {
                 Some(image) => image.thumbnails.large.url.as_str(),
                 None => "",
             },
+        }
+        .render()
+        .unwrap()
+    } else {
+        // TODO: handle error correctly....
+        return HttpResponse::Found()
+            .header(header::LOCATION, "/error")
+            .finish()
+            .into_body();
+    };
+
+    HttpResponse::Ok().content_type("text/html").body(s)
+}
+
+#[get("/stats/{id}")]
+async fn stats(
+    presidents: web::Data<Mutex<Presidents>>,
+    web::Path(id): web::Path<String>,
+) -> impl Responder {
+    let presidents_idx = presidents.lock().unwrap();
+    let s = if let Some(president) = presidents_idx.get(&id) {
+        StatsTemplate {
+            name: &president.name,
+            image_url: match &president.images.get(0) {
+                Some(image) => image.thumbnails.large.url.as_str(),
+                None => "",
+            },
+            hot: &president.hot,
+            not: &president.not,
         }
         .render()
         .unwrap()
@@ -262,12 +334,25 @@ async fn cast_vote(
     presidents_idx.insert(president.short_name(), president);
 
     HttpResponse::Found()
-        .header(header::LOCATION, "/")
+        .header(header::LOCATION, format!("/stats/{}", &id))
         .finish()
         .into_body()
 }
 
 #[get("/")]
+async fn next_president(presidents: web::Data<Mutex<Presidents>>) -> HttpResponse {
+    let presidents = presidents.lock().unwrap();
+
+    let keys = presidents.keys().collect::<Vec<&String>>();
+    let next = keys.choose(&mut rand::thread_rng()).unwrap();
+
+    HttpResponse::Found()
+        .header(header::LOCATION, format!("/vote/{}", next))
+        .finish()
+        .into_body()
+}
+
+#[get("/index.html")]
 async fn index(presidents: web::Data<Mutex<Presidents>>) -> HttpResponse {
     let presidents = presidents.lock().unwrap();
     let s = IndexTemplate {
@@ -296,7 +381,10 @@ async fn main() -> std::io::Result<()> {
             .service(vote)
             .service(cast_vote)
             .service(reload_data)
+            .service(save_data)
+            .service(stats)
             .service(index)
+            .service(next_president)
             .default_service(
                 // 404 for GET request
                 web::resource("")
@@ -309,7 +397,7 @@ async fn main() -> std::io::Result<()> {
                     ),
             )
     })
-    .bind("127.0.0.1:8080")?
+    .bind("0.0.0.0:8080")?
     .run()
     .await
 }
