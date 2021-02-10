@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="utf-8" />
-  <title>Hot or Not Presidents ({{ name }})</title>
-
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500&display=swap" rel="stylesheet">
-</head>
-
-<body>
-
-  <div id="container">
-
+{% extends "base_president.html" %}
+{% block content %}
     <div id="img-container">
       <img src="{{ image_url }}" alt="A photo of {{ name }}"> 
     </div>
@@ -28,83 +15,4 @@
         <a class="btn" href='/vote/{{ short_name }}/not'>🤮</a>
       </div>
     </div>
-
-  </div>
-
-</body>
-
-<style>
-
-
-img {
-  max-width: 100%;
-  max-height: 300px;
-  height: auto;
-}
-
-h2 {
-  font-family: 'Exo 2', sans-serif;
-  position: relative;
-  bottom: 25px;
-  font-size: 2em;
-  color: #213939;
-}
-
-h3 {
-  font-family: 'Exo 2', sans-serif;
-  font-size: 1.5em;
-  color: #f11e4f;
-}
-
-#container{
-  display: flex;
-  flex-direction: column;
-}
-
-#img-container{
-  text-align: center;
-  padding: 30px;
-}
-
-#subtext-container{
-  text-align: center;
-  padding: 15px;
-}
-
-#button-container{
-  display: flex;
-  padding: 30px;
-  text-align: center;
-  justify-content: center;
-}
-
-#button-inner{
-  display: flex;
-  justify-content: space-between;
-  width: 300px;
-}
-
-.btn{
-  display: inline-block;
-  text-decoration: none;
-  color: ##213939;
-  width: 100px;
-  height: 100px;
-  line-height: 120px;
-  border-radius: 50%;
-  border: solid 2px #668ad8;
-  text-align: center;
-  vertical-align: middle;
-  overflow: hidden;
-  font-weight: bold;
-  transition: .4s;
-  font-size: 3em;
-}
-
-.btn:hover {
-    background: #b3e1ff;
-}
-
-</style>
-
-</html>
+{% endblock %}
