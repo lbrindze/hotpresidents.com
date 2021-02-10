@@ -12,6 +12,7 @@ mod models;
 mod templates;
 
 use crate::at_client::reload_airtables;
+use crate::models::load_state;
 use crate::models::*;
 use crate::templates::*;
 
@@ -154,6 +155,7 @@ async fn index(presidents: web::Data<Mutex<Presidents>>) -> HttpResponse {
 async fn main() -> std::io::Result<()> {
     let mut presidents = Presidents::new();
     reload_airtables(&mut presidents).await;
+    load_state(&mut presidents).await;
 
     let data = web::Data::new(Mutex::new(presidents));
 

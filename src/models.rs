@@ -2,7 +2,11 @@ use actix_web::web;
 use serde::{self, Deserialize};
 
 use std::collections::HashMap;
-use std::io::Write;
+use std::default::Default;
+use std::fs::File;
+use std::io::BufRead;
+use std::io::{self, Write};
+use std::path::Path;
 
 use crate::config;
 
@@ -38,7 +42,7 @@ pub struct ImageThumbnail {
     pub height: u16,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Default)]
 pub struct President {
     #[serde(rename = "Name")]
     pub name: String,
@@ -121,15 +125,31 @@ pub async fn save_state(presidents: &Presidents) {
     }
 }
 
-/*
 fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where P: AsRef<Path>, {
+where
+    P: AsRef<Path>,
+{
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }
 
-async fn load_state(presidents: &Presidents) {
-    if let Ok(lines) = read_lines("./hosts") {
+pub async fn load_state(presidents: &mut Presidents) {
+    let cfg = config::from_envvar();
+    if let Ok(lines) = read_lines(cfg.save_file) {
+        for line in lines {
+            let line = line.unwrap();
+
+            let mut splitter = line.split(",");
+
+            let key = splitter.next().unwrap();
+            let hot = splitter.next().unwrap();
+            let not = splitter.next().unwrap();
+
+            let president = presidents
+                .entry(key.to_string())
+                .or_insert(Default::default());
+            president.hot = hot.parse().unwrap();
+            president.not = not.parse().unwrap();
+        }
     }
 }
-*/
