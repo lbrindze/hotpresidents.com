@@ -151,6 +151,12 @@ async fn index(presidents: web::Data<Mutex<Presidents>>) -> HttpResponse {
     HttpResponse::Ok().content_type("text/html").body(s)
 }
 
+/// favicon handler
+#[get("/favicon")]
+async fn favicon() -> Result<fs::NamedFile> {
+    Ok(fs::NamedFile::open("static/favicon.ico")?)
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let mut presidents = Presidents::new();
@@ -174,6 +180,8 @@ async fn main() -> std::io::Result<()> {
             .service(stats)
             .service(index)
             .service(next_president)
+            .service(favicon)
+            .service(fs::Files::new("/static", "static").show_files_listing())
             .default_service(
                 // 404 for GET request
                 web::resource("")
