@@ -9,6 +9,10 @@ To start service for local development, set the following Env Vars and run:
 export DATA_LOAD_URI="..."
 export API_KEY="..."
 export SAVE_FILE="..."
+export SAVE_TIMEOUT=30
+export HOST_ADDRESS="localhost"
+export HOST_PORT=8080
+
 cargo run
 ```
 

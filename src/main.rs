@@ -1,4 +1,5 @@
 use std::sync::Mutex;
+use std::{thread, time};
 
 use actix_files as fs;
 use actix_web::http::{header, StatusCode};
@@ -21,7 +22,7 @@ use crate::templates::*;
 async fn save_data(presidents: web::Data<Mutex<Presidents>>) -> HttpResponse {
     let presidents = presidents.lock().unwrap();
 
-    save_state(&presidents).await;
+    save_state(&presidents);
 
     HttpResponse::Found()
         .header(header::LOCATION, "/")
@@ -179,12 +180,15 @@ async fn main() -> std::io::Result<()> {
     load_state(&mut presidents).await;
 
     let data = web::Data::new(Mutex::new(presidents));
+    let saver_data_handle = data.clone();
 
     std::env::set_var("RUST_LOG", "info");
     env_logger::init();
     log::info!("Logger Initialized, Starting Server..");
 
     let cfg = config::from_envvar();
+
+    let (host, port) = (cfg.host_address.clone(), cfg.host_port.clone());
 
     let server = HttpServer::new(move || {
         App::new()
@@ -211,8 +215,19 @@ async fn main() -> std::io::Result<()> {
                     ),
             )
     })
-    .bind(("0.0.0.0", 8080))?
-    .run()
-    .await;
-    server
+    .bind((host, port))?
+    .run();
+
+    thread::spawn(move || {
+        let sleep_seconds = time::Duration::from_secs(cfg.save_timeout);
+
+        loop {
+            thread::sleep(sleep_seconds);
+            log::info!("[saver thread] Saving state");
+            let presidents = saver_data_handle.as_ref().lock().unwrap();
+            save_state(&presidents);
+        }
+    });
+
+    server.await
 }

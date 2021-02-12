@@ -8,9 +8,11 @@ pub struct Config {
     #[serde(default)]
     pub save_file: String,
     #[serde(default)]
-    pub save_timeout: usize,
+    pub save_timeout: u64,
     #[serde(default)]
     pub host_address: String,
+    #[serde(default)]
+    pub host_port: u16,
 }
 
 impl Default for Config {
@@ -21,7 +23,8 @@ impl Default for Config {
                     .to_string(),
             api_key: "".to_string(),
             save_file: "president_votes_state.data".to_string(),
-            host_address: "0.0.0.0:8080".to_string(),
+            host_address: "localhost".to_string(),
+            host_port: 8080,
             save_timeout: 30,
         }
     }

@@ -1,4 +1,3 @@
-use actix_web::web;
 use serde::{self, Deserialize};
 
 use std::collections::HashMap;
@@ -109,24 +108,25 @@ pub fn to_index_items(p: &Presidents) -> Vec<PresidentIndexItem> {
     p.values().map(|p| p.template_item()).collect()
 }
 
-pub async fn save_state(presidents: &Presidents) {
+pub fn save_state(presidents: &Presidents) {
     // File::create is blocking operation, use threadpool
     let cfg = config::from_envvar();
-    let mut f = web::block(|| std::fs::File::create(cfg.save_file))
-        .await
-        .unwrap();
+    let mut data = String::new();
 
     for president in presidents.values() {
-        let data = format!(
-            "{},{},{}\n",
-            president.short_name(),
-            president.hot,
-            president.not
+        data.push_str(
+            format!(
+                "{},{},{}\n",
+                president.short_name(),
+                president.hot,
+                president.not
+            )
+            .as_str(),
         );
-        f = web::block(move || f.write_all(&data.as_bytes()).map(|_| f))
-            .await
-            .unwrap();
     }
+
+    let mut f = std::fs::File::create(cfg.save_file).unwrap();
+    f.write_all(&data.as_bytes()).ok();
 }
 
 fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
