@@ -14,34 +14,6 @@ use crate::config;
 /// Internal data models
 ///
 
-#[derive(Clone, Debug, Deserialize)]
-pub struct PresidentImage {
-    #[serde(default)]
-    pub url: String,
-    #[serde(default)]
-    pub filename: String,
-    #[serde(default)]
-    pub size: usize,
-    #[serde(rename = "type")]
-    pub content_type: String,
-    #[serde(default)]
-    pub thumbnails: Thumbnails,
-}
-
-#[derive(Clone, Debug, Deserialize, Default)]
-pub struct Thumbnails {
-    pub small: ImageThumbnail,
-    pub large: ImageThumbnail,
-    pub full: ImageThumbnail,
-}
-
-#[derive(Clone, Debug, Deserialize, Default)]
-pub struct ImageThumbnail {
-    pub url: String,
-    pub width: u16,
-    pub height: u16,
-}
-
 #[derive(Clone, Debug, Deserialize, Default)]
 pub struct President {
     #[serde(rename = "Name")]
@@ -50,6 +22,10 @@ pub struct President {
     pub office: String,
     #[serde(rename = "Party")]
     pub party: String,
+    #[serde(rename = "Quote")]
+    pub quote: Option<String>,
+    #[serde(rename = "Years in Office")]
+    pub years_in_office: Option<String>,
     #[serde(rename = "Year took Office")]
     pub term_year: u16,
     #[serde(rename = "Number in Office")]
@@ -97,6 +73,34 @@ pub struct PresidentIndexItem {
     pub short_name: String,
     pub score: isize,
     pub image_url: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct PresidentImage {
+    #[serde(default)]
+    pub url: String,
+    #[serde(default)]
+    pub filename: String,
+    #[serde(default)]
+    pub size: usize,
+    #[serde(rename = "type")]
+    pub content_type: String,
+    #[serde(default)]
+    pub thumbnails: Thumbnails,
+}
+
+#[derive(Clone, Debug, Deserialize, Default)]
+pub struct Thumbnails {
+    pub small: ImageThumbnail,
+    pub large: ImageThumbnail,
+    pub full: ImageThumbnail,
+}
+
+#[derive(Clone, Debug, Deserialize, Default)]
+pub struct ImageThumbnail {
+    pub url: String,
+    pub width: u16,
+    pub height: u16,
 }
 
 pub type Presidents = HashMap<String, President>;

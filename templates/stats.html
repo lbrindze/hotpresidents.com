@@ -7,19 +7,18 @@
     <div id="subtext-container">
       <h2>{{ name }}</h2>
 
-      {% if not > hot %}
-      <h3>Notus</h3>
-      {% else %}
-      <h3>Hotus</h3>
-      {% endif %}
+      <p>{{ office }}: {{ years_in_office }}</p>
+      <p>{{ quote }}</p>
+
+      <h3>Score:</h3>
 
     </div>
 
     <div id="button-container">
       <div id="button-inner">
-	      <a class="btn" href='/'>{{ hot }}</a>
-	      <a class="btn" href='/'>⏭️</a>
-	      <a class="btn" href='/'>{{ not }}</a>
+        <a class="btn" href='/'>{{ hot }}</a>
+	<a class="btn" href='/'>⏭️</a>
+	<a class="btn" href='/'>{{ not }}</a>
       </div>
     </div>
 {% endblock %}

@@ -57,8 +57,17 @@ async fn vote(
         VoteTemplate {
             name: &president.name,
             short_name: &president.short_name(),
+            office: &president.office,
             image_url: match &president.images.get(0) {
                 Some(image) => image.thumbnails.large.url.as_str(),
+                None => "",
+            },
+            years_in_office: &president
+                .years_in_office
+                .as_ref()
+                .unwrap_or(&"".to_string()),
+            quote: match president.quote.as_ref() {
+                Some(quote) => quote.as_str(),
                 None => "",
             },
         }
@@ -84,12 +93,18 @@ async fn stats(
     let s = if let Some(president) = presidents_idx.get(&id) {
         StatsTemplate {
             name: &president.name,
+            office: &president.office,
+            years_in_office: &president
+                .years_in_office
+                .as_ref()
+                .unwrap_or(&"".to_string()),
+            hot: &president.hot,
+            not: &president.not,
             image_url: match &president.images.get(0) {
                 Some(image) => image.thumbnails.large.url.as_str(),
                 None => "",
             },
-            hot: &president.hot,
-            not: &president.not,
+            quote: president.quote.as_ref().unwrap_or(&"".to_string()),
         }
         .render()
         .unwrap()
