@@ -184,7 +184,9 @@ async fn main() -> std::io::Result<()> {
     env_logger::init();
     log::info!("Logger Initialized, Starting Server..");
 
-    HttpServer::new(move || {
+    let cfg = config::from_envvar();
+
+    let server = HttpServer::new(move || {
         App::new()
             .app_data(data.clone())
             .wrap(middleware::Logger::default())
@@ -209,7 +211,8 @@ async fn main() -> std::io::Result<()> {
                     ),
             )
     })
-    .bind("0.0.0.0:8080")?
+    .bind(("0.0.0.0", 8080))?
     .run()
-    .await
+    .await;
+    server
 }
