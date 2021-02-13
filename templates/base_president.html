@@ -30,15 +30,14 @@
 
 
 img {
-  max-width: 100%;
-  max-height: 300px;
+  max-height: 40vh;
+  width: auto;
   height: auto;
 }
 
 h2 {
   font-family: 'Exo 2', sans-serif;
   position: relative;
-  bottom: 25px;
   font-size: 2em;
   color: #213939;
   margin-bottom: .2em;
@@ -46,9 +45,9 @@ h2 {
 
 h3 {
   font-family: 'Exo 2', sans-serif;
-  font-size: 1.5em;
+  font-size: 2em;
   color: #f11e4f;
-  margin-bottom: .2em;
+  margin: .2em;
 }
 
 h4 {
@@ -62,6 +61,7 @@ p {
   font-size: 1.3em;
   margin: .2em;
   color: #213939;
+  overflow: auto;
 }
 
 #container{
@@ -72,17 +72,18 @@ p {
 
 #img-container{
   text-align: center;
-  padding: 15px;
+  display: flex;
 }
 
 #subtext-container{
   text-align: center;
-  padding: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 #button-container{
   display: flex;
-  padding: 30px;
+  padding: 10px;
   text-align: center;
   justify-content: center;
 }
@@ -90,7 +91,7 @@ p {
 .button-inner{
   display: flex;
   justify-content: space-between;
-  width: 300px;
+  width: 275px;
 }
 
 .btn {
@@ -99,7 +100,7 @@ p {
     color: ##213939;
     width: 100px;
     height: 100px;
-    line-height: 120px;
+    line-height: 115px;
     border-radius: 50%;
     text-align: center;
     vertical-align: middle;
@@ -130,8 +131,8 @@ p {
 
 .next-inner{
   display: flex;
-  justify-content: right;
-  width: 300px;
+  justify-content: flex-end;
+  width: 275px;
 }
 
 .next-btn {
