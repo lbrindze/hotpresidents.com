@@ -51,6 +51,12 @@ h3 {
   margin-bottom: .2em;
 }
 
+h4 {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 2em;
+  margin-bottom: .1em;
+}
+
 p {
   font-family: 'Exo 2', sans-serif;
   font-size: 1.3em;
@@ -81,31 +87,69 @@ p {
   justify-content: center;
 }
 
-#button-inner{
+.button-inner{
   display: flex;
   justify-content: space-between;
   width: 300px;
 }
 
-.btn{
-  display: inline-block;
-  text-decoration: none;
-  color: ##213939;
-  width: 100px;
-  height: 100px;
-  line-height: 120px;
-  border-radius: 50%;
-  border: solid 2px #668ad8;
-  text-align: center;
-  vertical-align: middle;
-  overflow: hidden;
-  font-weight: bold;
-  transition: .4s;
-  font-size: 3em;
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    color: ##213939;
+    width: 100px;
+    height: 100px;
+    line-height: 120px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    font-weight: bold;
+    transition: .4s;
+    font-size: 3em;
+    box-shadow: 7px 5px 18px #0000006b;
+    background: white;
 }
 
 .btn:hover {
     background: #b3e1ff;
+}
+
+.score {
+    display: inline-block;
+    text-decoration: none;
+    width: 100px;
+    transition: .4s;
+    margin-top: 0;
+}
+
+#next-container{
+  display: flex;
+  justify-content: center;
+}
+
+.next-inner{
+  display: flex;
+  justify-content: right;
+  width: 300px;
+}
+
+.next-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: ##213939;
+    width: 60px;
+    height: 60px;
+    line-height: 68px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    font-weight: bold;
+    transition: .4s;
+    font-size: 2.3em;
+    box-shadow: 7px 5px 18px #0000006b;
+    background: white;
 }
 
 </style>
