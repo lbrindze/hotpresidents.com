@@ -126,7 +126,15 @@ async fn cast_vote(
     web::Path((id, adj)): web::Path<(String, String)>,
 ) -> impl Responder {
     let mut presidents_idx = presidents.lock().unwrap();
-    let mut president = presidents_idx.get(&id).unwrap().clone();
+    let mut president = match presidents_idx.get(&id) {
+        Some(p) => p.clone(),
+        None => {
+            return HttpResponse::Found()
+                .header(header::LOCATION, "/error")
+                .finish()
+                .into_body();
+        }
+    };
 
     match adj.as_str() {
         "hot" => president.hot_vote(),
@@ -188,7 +196,7 @@ async fn main() -> std::io::Result<()> {
 
     let cfg = config::from_envvar();
 
-    let (host, port) = (cfg.host_address.clone(), cfg.host_port.clone());
+    let (_host, port) = (cfg.host_address.clone(), cfg.host_port.clone());
 
     let server = HttpServer::new(move || {
         App::new()
@@ -215,7 +223,7 @@ async fn main() -> std::io::Result<()> {
                     ),
             )
     })
-    .bind((host, port))?
+    .bind(("localhost", port))?
     .run();
 
     thread::spawn(move || {
