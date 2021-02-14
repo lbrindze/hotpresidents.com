@@ -2,10 +2,11 @@ use std::sync::Mutex;
 use std::{thread, time};
 
 use actix_files as fs;
+use actix_session::{CookieSession, Session};
 use actix_web::http::{header, StatusCode};
 use actix_web::{get, guard, middleware, web, App, HttpResponse, HttpServer, Responder, Result};
 use askama::Template;
-use rand::seq::SliceRandom;
+use rand::distributions::{Distribution, Uniform};
 
 mod at_client;
 mod config;
@@ -151,16 +152,26 @@ async fn cast_vote(
 }
 
 #[get("/")]
-async fn next_president(presidents: web::Data<Mutex<Presidents>>) -> HttpResponse {
+async fn next_president(
+    session: Session,
+    presidents: web::Data<Mutex<Presidents>>,
+) -> HttpResponse {
     let presidents = presidents.lock().unwrap();
+    let visited = session.get::<u128>("visited");
 
-    let keys = presidents.keys().collect::<Vec<&String>>();
-    let next = keys.choose(&mut rand::thread_rng()).unwrap();
+    let mut rng = rand::thread_rng();
+    let idx_dist = Uniform::from(0..presidents.len());
 
-    HttpResponse::Found()
-        .header(header::LOCATION, format!("/vote/{}", next))
-        .finish()
-        .into_body()
+    match presidents.get_index(idx_dist.sample(&mut rng)) {
+        Some((next, _)) => HttpResponse::Found()
+            .header(header::LOCATION, format!("/vote/{}", next))
+            .finish()
+            .into_body(),
+        None => HttpResponse::Found()
+            .header(header::LOCATION, "/error")
+            .finish()
+            .into_body(),
+    }
 }
 
 #[get("/index.html")]
@@ -202,6 +213,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(data.clone())
             .wrap(middleware::Logger::default())
+            .wrap(CookieSession::signed(&[0; 32]).secure(false))
             .service(vote)
             .service(cast_vote)
             .service(reload_data)

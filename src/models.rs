@@ -1,6 +1,6 @@
+use indexmap::IndexMap;
 use serde::{self, Deserialize};
 
-use std::collections::HashMap;
 use std::default::Default;
 use std::fs::File;
 use std::io::BufRead;
@@ -102,7 +102,7 @@ pub struct ImageThumbnail {
     pub height: u16,
 }
 
-pub type Presidents = HashMap<String, President>;
+pub type Presidents = IndexMap<String, President>;
 
 pub fn to_index_items(p: &Presidents) -> Vec<PresidentIndexItem> {
     p.values().map(|p| p.template_item()).collect()
