@@ -1,0 +1,23 @@
+config:
+  target: "https://hotpresidents.com"
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: Warm up
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+      name: Ramp up load
+    - duration: 600
+      arrivalRate: 50
+      name: Sustained load
+scenarios:
+  - name: "Load Random"
+    flow:
+      - get:
+          url: "/product/{{ id }}/details"
+      # Pause for 3 seconds:
+      - think: 3
+      - get:
+          url: "/stats/george_washington"
+
