@@ -15,7 +15,6 @@ mod templates;
 
 use crate::at_client::reload_airtables;
 use crate::models::load_state;
-use crate::models::UniqueTracker;
 use crate::models::*;
 use crate::templates::*;
 
@@ -89,10 +88,16 @@ async fn vote(
 
 #[get("/stats/{id}")]
 async fn stats(
+    session: Session,
     presidents: web::Data<Mutex<Presidents>>,
     web::Path(id): web::Path<String>,
 ) -> impl Responder {
     let presidents_idx = presidents.lock().unwrap();
+    let visited = session
+        .get::<u128>("visited")
+        .unwrap_or(None)
+        .unwrap_or(presidents_idx.new_tracker());
+
     let s = if let Some(president) = presidents_idx.get(&id) {
         StatsTemplate {
             name: &president.name,
@@ -162,7 +167,7 @@ async fn next_president(
     let visited = session
         .get::<u128>("visited")
         .unwrap_or(None)
-        .unwrap_or(presidents.new_session());
+        .unwrap_or(presidents.new_tracker());
 
     let mut rng = rand::thread_rng();
     let idx_dist = Uniform::from(0..presidents.len());

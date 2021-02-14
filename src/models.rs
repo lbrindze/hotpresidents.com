@@ -103,13 +103,14 @@ pub struct ImageThumbnail {
 }
 
 pub trait UniqueTracker {
-    fn new_session(&self) -> u128;
+    // A trait that can track which presidents have been visited in a bit masked uint
+    fn new_tracker(&self) -> u128;
 }
 
 pub type Presidents = IndexMap<String, President>;
 
 impl UniqueTracker for Presidents {
-    fn new_session(&self) -> u128 {
+    fn new_tracker(&self) -> u128 {
         0
     }
 }
