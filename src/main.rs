@@ -15,6 +15,7 @@ mod templates;
 
 use crate::at_client::reload_airtables;
 use crate::models::load_state;
+use crate::models::UniqueTracker;
 use crate::models::*;
 use crate::templates::*;
 
@@ -157,7 +158,11 @@ async fn next_president(
     presidents: web::Data<Mutex<Presidents>>,
 ) -> HttpResponse {
     let presidents = presidents.lock().unwrap();
-    let visited = session.get::<u128>("visited");
+
+    let visited = session
+        .get::<u128>("visited")
+        .unwrap_or(None)
+        .unwrap_or(presidents.new_session());
 
     let mut rng = rand::thread_rng();
     let idx_dist = Uniform::from(0..presidents.len());

@@ -102,7 +102,17 @@ pub struct ImageThumbnail {
     pub height: u16,
 }
 
+pub trait UniqueTracker {
+    fn new_session(&self) -> u128;
+}
+
 pub type Presidents = IndexMap<String, President>;
+
+impl UniqueTracker for Presidents {
+    fn new_session(&self) -> u128 {
+        0
+    }
+}
 
 pub fn to_index_items(p: &Presidents) -> Vec<PresidentIndexItem> {
     p.values().map(|p| p.template_item()).collect()
