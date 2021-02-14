@@ -6,7 +6,6 @@ use actix_session::{CookieSession, Session};
 use actix_web::http::{header, StatusCode};
 use actix_web::{get, guard, middleware, web, App, HttpResponse, HttpServer, Responder, Result};
 use askama::Template;
-use rand::distributions::{Distribution, Uniform};
 
 mod at_client;
 mod config;
@@ -89,14 +88,18 @@ async fn vote(
 #[get("/stats/{id}")]
 async fn stats(
     session: Session,
-    presidents: web::Data<Mutex<Presidents>>,
+    data: web::Data<Mutex<Presidents>>,
     web::Path(id): web::Path<String>,
-) -> impl Responder {
-    let presidents_idx = presidents.lock().unwrap();
+) -> HttpResponse {
+    let presidents_idx = data.lock().unwrap();
+
     let visited = session
         .get::<u128>("visited")
         .unwrap_or(None)
         .unwrap_or(presidents_idx.new_tracker());
+
+    let now_visited = presidents_idx.update_tracker(&id, visited);
+    session.set("visited", now_visited).unwrap();
 
     let s = if let Some(president) = presidents_idx.get(&id) {
         StatsTemplate {
@@ -117,7 +120,6 @@ async fn stats(
         .render()
         .unwrap()
     } else {
-        // TODO: handle error correctly....
         return HttpResponse::Found()
             .header(header::LOCATION, "/error")
             .finish()
@@ -169,18 +171,18 @@ async fn next_president(
         .unwrap_or(None)
         .unwrap_or(presidents.new_tracker());
 
-    let mut rng = rand::thread_rng();
-    let idx_dist = Uniform::from(0..presidents.len());
-
-    match presidents.get_index(idx_dist.sample(&mut rng)) {
-        Some((next, _)) => HttpResponse::Found()
+    match presidents.get_next(visited) {
+        Ok(next) => HttpResponse::Found()
             .header(header::LOCATION, format!("/vote/{}", next))
             .finish()
             .into_body(),
-        None => HttpResponse::Found()
-            .header(header::LOCATION, "/error")
-            .finish()
-            .into_body(),
+        Err(_) => {
+            session.set("visited", presidents.new_tracker()).unwrap();
+            HttpResponse::Found()
+                .header(header::LOCATION, "/")
+                .finish()
+                .into_body()
+        }
     }
 }
 

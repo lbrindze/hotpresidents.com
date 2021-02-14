@@ -1,4 +1,5 @@
 use indexmap::IndexMap;
+use rand::distributions::{Distribution, Uniform};
 use serde::{self, Deserialize};
 
 use std::default::Default;
@@ -105,6 +106,8 @@ pub struct ImageThumbnail {
 pub trait UniqueTracker {
     // A trait that can track which presidents have been visited in a bit masked uint
     fn new_tracker(&self) -> u128;
+    fn get_next(&self, visited: u128) -> Result<String, &str>;
+    fn update_tracker(&self, short_name: &str, visited: u128) -> u128;
 }
 
 pub type Presidents = IndexMap<String, President>;
@@ -112,6 +115,31 @@ pub type Presidents = IndexMap<String, President>;
 impl UniqueTracker for Presidents {
     fn new_tracker(&self) -> u128 {
         0
+    }
+
+    fn get_next(&self, visited: u128) -> Result<String, &str> {
+        let presidents: Vec<String> = self
+            .iter()
+            .enumerate()
+            .filter(|(i, _)| (1 << i) & visited == 0)
+            .map(|(_, (_, v))| v.short_name())
+            .collect();
+
+        if presidents.len() == 0 {
+            return Err("No More Presidents left");
+        }
+
+        let idx_dist = Uniform::from(0..presidents.len());
+        let mut rng = rand::thread_rng();
+
+        Ok(presidents[idx_dist.sample(&mut rng)].clone())
+    }
+
+    fn update_tracker(&self, short_name: &str, visited: u128) -> u128 {
+        match self.get_index_of(short_name) {
+            Some(i) => visited | 1 << i,
+            None => visited,
+        }
     }
 }
 
