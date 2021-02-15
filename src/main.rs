@@ -35,7 +35,9 @@ async fn save_data(presidents: web::Data<Mutex<Presidents>>) -> HttpResponse {
 async fn reload_data(presidents: web::Data<Mutex<Presidents>>) -> HttpResponse {
     let mut presidents = presidents.lock().unwrap();
 
+    save_state(&presidents);
     reload_airtables(&mut presidents).await;
+    load_state(&mut presidents).await;
 
     HttpResponse::Found()
         .header(header::LOCATION, "/")
