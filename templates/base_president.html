@@ -14,145 +14,17 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
   <link rel="manifest" href="/static/site.webmanifest">
   <link rel="mask-icon" href="/static/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="stylesheet" href="/css/main.css">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
-  <div id="container">
+  <div class='frame flex_center_col'>
 {% block content %}{% endblock %}
   </div>
 
 </body>
 
-<style>
-
-
-
-img {
-  max-height: 40vh;
-  width: auto;
-  height: auto;
-}
-
-h2 {
-  font-family: 'Exo 2', sans-serif;
-  position: relative;
-  font-size: 2em;
-  color: #213939;
-  margin-bottom: .2em;
-}
-
-h3 {
-  font-family: 'Exo 2', sans-serif;
-  font-size: 2em;
-  color: #f11e4f;
-  margin: .2em;
-}
-
-h4 {
-  font-family: 'Exo 2', sans-serif;
-  font-size: 2em;
-  margin-bottom: .1em;
-}
-
-p {
-  font-family: 'Exo 2', sans-serif;
-  font-size: 1.3em;
-  margin: .2em;
-  color: #213939;
-  overflow: auto;
-}
-
-#container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#img-container{
-  text-align: center;
-  display: flex;
-}
-
-#subtext-container{
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-}
-
-#button-container{
-  display: flex;
-  padding: 10px;
-  text-align: center;
-  justify-content: center;
-}
-
-.button-inner{
-  display: flex;
-  justify-content: space-between;
-  width: 275px;
-}
-
-.btn {
-    display: inline-block;
-    text-decoration: none;
-    color: ##213939;
-    width: 100px;
-    height: 100px;
-    line-height: 115px;
-    border-radius: 50%;
-    text-align: center;
-    vertical-align: middle;
-    overflow: hidden;
-    font-weight: bold;
-    transition: .4s;
-    font-size: 3em;
-    box-shadow: 7px 5px 18px #0000006b;
-    background: white;
-}
-
-.btn:hover {
-    background: #b3e1ff;
-}
-
-.score {
-    display: inline-block;
-    text-decoration: none;
-    width: 100px;
-    transition: .4s;
-    margin-top: 0;
-}
-
-#next-container{
-  display: flex;
-  justify-content: flex-end;
-}
-
-.next-inner{
-  display: flex;
-  justify-content: flex-end;
-  width: 275px;
-}
-
-.next-btn {
-    display: inline-block;
-    text-decoration: none;
-    color: ##213939;
-    width: 60px;
-    height: 60px;
-    line-height: 68px;
-    border-radius: 50%;
-    text-align: center;
-    vertical-align: middle;
-    overflow: hidden;
-    font-weight: bold;
-    transition: .4s;
-    font-size: 2.3em;
-    box-shadow: 7px 5px 18px #0000006b;
-    background: white;
-}
-
-</style>
 
 </html>

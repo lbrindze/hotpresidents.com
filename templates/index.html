@@ -3,20 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <title>Hot or Not Presidents</title>
+  <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-  <h1>HOTUS or NOTUS?</h1>
-  <p>
-    <h3>Vote now!</h3>
-  </p>
+    
+ <div class='frame flex_center_col _scores'>
+    
+     
+   <h3 class='title'> Hotus or Notus?</h3>
+    <div class='scores_container flex_center_col'>
+   <div class='scores_list'>
+    {% for president in presidents %}
+    <div class='score_card'>
+     <div class='score_pic'> <img src="{{ president.image_url }}" alt="A photo of {{ president.name }}"> </div>
+     <div class='score_text_wrap flex_row_nowrap_space_vert-align'>
+      <div class='name'> {{ president.name }} <a href='/vote/{{ president.short_name }}' class='fixed_link'></a> </div>
+      <div class='text'><span>Score:</span> {{ president.score }} </div>
+     </div> <!-- end of score_text_wrap -->
+    </div> <!-- end score_card -->
+      {% endfor %}
+   </div> <!-- end of scores_list -->
+  </div> <!-- end of scores_container -->  
+     
+  <div class='next_card_button flex_row_center_vert'> Vote Now <img src='/static/black-arrow.svg'> <a href="/" class='fixed_link'></a></div> 
 
-  <ul>
-  {% for president in presidents %}
-    <li>
-      <img src="{{ president.image_url }}" alt="A photo of {{ president.name }}" width="150">
-      name: <a href='/vote/{{ president.short_name }}'>{{ president.name }}</a> | score: {{ president.score }}
-    </li>
-  {% endfor %}
-  </ul>
+ </div> <!-- end of frame --> 
+
+
 </body>
 </html>
