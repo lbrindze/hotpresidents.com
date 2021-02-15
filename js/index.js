@@ -5,19 +5,21 @@
 
 var route = {};
 
-console.log("this works");
 
 
 document.addEventListener('DOMContentLoaded', function() { 
- var page = document.querySelector(".frame").getAttribute("data-page");
- if(page.length>0) route[page]();
+ var path = window.location.pathname.trim().split('/')[1];
+ 
+ if(path.length>0) {
+    document.querySelector(".frame").setAttribute("data-page",path); 
+    route[path]();
+   }
 });
 
 
 
-route.score = function(){
+route.stats = function(){
     
-    console.log("in function");
  let hotScore = Number(document.querySelector("._score_counter._hotus").getAttribute("data-count"));
  let notScore = Number(document.querySelector("._score_counter._notus").getAttribute("data-count"));
 

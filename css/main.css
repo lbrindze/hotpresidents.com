@@ -238,13 +238,13 @@ body { background: #F5F5F5;
 
 
 /* Card Score Vie*/
-[data-page='score'] .title span { display: inline-block; }
+[data-page='stats'] .title span { display: inline-block; }
 
-[data-page='score'] .title span:not(._score_counter),
-[data-page='score'] .title ._score_counter { opacity: .25; }
+[data-page='stats'] .title span:not(._score_counter),
+[data-page='stats'] .title ._score_counter { opacity: .25; }
 
 
-[data-page='score'] .title ._score_counter._active { opacity: 1; 
+[data-page='stats'] .title ._score_counter._active { opacity: 1; 
                                                      animation: flash .35s 2 ease;
                                                    }
 
