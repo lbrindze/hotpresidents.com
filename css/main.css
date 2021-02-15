@@ -234,6 +234,35 @@ body { background: #F5F5F5;
 
 
 
+
+
+
+/* Card Score Vie*/
+[data-page='score'] .title span { display: inline-block; }
+
+[data-page='score'] .title span:not(._score_counter),
+[data-page='score'] .title ._score_counter { opacity: .25; }
+
+
+[data-page='score'] .title ._score_counter._active { opacity: 1; 
+                                                     animation: flash .35s 2 ease;
+                                                   }
+
+
+
+
+._score_counter { position: relative; }
+
+
+@keyframes flash{
+    
+    0% { opacity: 1; }
+    50% { opacity: .75; transform: scale(1.2,1.2); }
+    100% { opacity: 1; transform: scale(1,1); }
+    
+} /* end of flash*/
+
+
 /* next card button */
 .next_card_button { font-size: 21px;
                     margin-top: 25px;
@@ -279,12 +308,12 @@ body { background: #F5F5F5;
 /* -- ## Results Page ## -- */
 .frame._scores { padding-left: 0px;
                  padding-right: 0px;
-                }
+                 }
 
 
-.frame._scores .title { text-align: left; 
-                        width: 380px;
-                        }
+.frame._scores .title { width: auto;
+                        min-width: 380px;
+                       }
 
 
 
