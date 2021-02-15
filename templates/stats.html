@@ -1,29 +1,29 @@
 {% extends "base_president.html" %}
 {% block content %}
-    <div id="img-container">
-      <img src="{{ image_url }}" alt="A photo of {{ name }}"> 
+    <div class='header'>
+    <h3 class='title'> Score: </h3>
+    <div class='mobile_next_button'> <img src='/static/black-arrow.svg'> <a href="/" class='fixed_link'></a> </div> 
+   </div> <!-- end of header -->
+      
+   <div class='vote_card'>
+    <div class='card_pic'> <img src="{{ image_url }}" alt="A photo of {{ name }}"> </div>
+       
+    <div class='card_details'>
+     <div class='name'>{{ name }}</div> 
+     <div class='date'> {{ office }}: {{ years_in_office }} </div>
+     <div class='text'> {{ quote }} </div>
+    </div> <!-- end of card_details -->
+   </div> <!-- end of vote_card -->
+      
+   <div class='vote_buttons_wrap flex_row_nowrap_space_vert-align'>
+    <div class='vote_button _score_showing'> 
+     <div class='_face flex_center_col'><span>{{ hot }}</span>🔥</div>
     </div>
-
-    <div id="subtext-container">
-      <h2>{{ name }}</h2>
-
-      <p>{{ office }}: {{ years_in_office }}</p>
-      <p>{{ quote }}</p>
-
-      <h3>Score:</h3>
+    <div class='vote_button _score_showing'> 
+     <div class='_face flex_center_col'><span>{{ not }}</span>🤮</div>
     </div>
-
-    <div id="score-container">
-      <div class="button-inner">
-        <h4 class="score">🔥 {{ hot }}</p>
-        <h4 class="score">🤮 {{ not }}</p>
-      </div>
-    </div>
-
-    <div id="next-container">
-      <div class="next-inner">
-    	<a class="next-btn" href='/'>👉</a>
-      </div>
-    </div>
+   </div> <!-- end of vot_buttons_wrap -->
+      
+   <div class='next_card_button flex_row_center'> Next <img src='/static/black-arrow.svg'> <a href="/" class='fixed_link'></a></div> 
 
 {% endblock %}

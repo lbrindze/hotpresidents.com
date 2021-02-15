@@ -1,0 +1,89 @@
+/* # Mobile css for hotpresidents.com 
+*/
+
+
+
+
+
+
+/* ## Cards View ## */
+
+ @media screen and (max-width: 730px) {
+     
+  .vote_buttons_wrap { height: auto;
+                       width: 90%;
+                       max-width: 200px;
+                       position: relative;
+                       top: 0px;
+                       left: 0px;
+                       transform: none;
+                       margin: 10% 0px;
+                       }
+     
+     
+     .mobile_next_button { display: block; }
+     
+     .next_card_button { display: none;}
+          
+     
+     .header { width: 90%; 
+               max-width: 400px;
+               text-align: center;
+               margin: 5% 0px;
+                }
+     
+     
+     
+     .vote_button._score_showing { height: 50px;
+                                   width: 50px;
+                                }
+     
+     .vote_button span { font-size: 31px; }
+     
+     
+     
+     .vote_card { width: 90%;
+                  max-width: 380px;
+                  height: 540px;
+                }
+     
+     
+      .frame._scores .next_card_button { display: block;
+                                         width: 80%;
+                                         max-width: 380px;
+                                         text-align: center;
+                                        }
+                  
+
+     
+}/*end*/
+
+
+
+ @media screen and (max-width: 430px) {
+     
+     
+     .vote_card { height: 400px;}
+     
+     .vote_button { height: 60px;
+                    width: 60px;
+                    font-size: 35px;
+                    }
+     
+      
+     .scores_list { width: 80%; 
+                    max-width: 320px;
+                    }
+     
+     .score_pic { height: 240px; }
+     
+     .score_card:not(:first-of-type) { margin-left: 6%; }
+     
+ 
+     
+     .score_card:last-child { margin-right: 10%; }
+     
+     .score_card .name { font-size: 14px; }
+     
+}/*end*/
+

@@ -1,20 +1,29 @@
 {% extends "base_president.html" %}
 {% block content %}
-    <div id="img-container">
-      <img src="{{ image_url }}" alt="A photo of {{ name }}"> 
-    </div>
 
-    <div id="subtext-container">
-      <h2>{{ name }}</h2>
-      <p>{{ office }}: {{ years_in_office }}</p>
-      <p>{{ quote }}</p>
-      <h3>Hotus or Notus?</h3>
+    <div class='header'>
+    <h3 class='title'> Hotus or Notus? </h3>
+   </div> <!-- end of header -->
+      
+   <div class='vote_card'>
+    <div class='card_pic'> <img src="{{ image_url }}" alt="A photo of {{ name }}"> </div>
+       
+    <div class='card_details'>
+     <div class='name'>{{ name }} </div> 
+     <div class='date'> {{ office }}: {{ years_in_office }} </div>
+     <div class='text'> {{ quote }} </div>
+    </div> <!-- end of card_details -->
+   </div> <!-- end of vote_card -->
+      
+   <div class='vote_buttons_wrap flex_row_nowrap_space_vert-align'>
+    <div class='vote_button btn'> 
+     <div class='_face flex_center_col'>🔥</div>
+     <a href='/vote/{{ short_name }}/hot' class='fixed_link'></a>   
     </div>
-
-    <div id="button-container">
-      <div class="button-inner">
-        <a class="btn" href='/vote/{{ short_name }}/hot'>🔥</a>
-        <a class="btn" href='/vote/{{ short_name }}/not'>🤮</a>
-      </div>
+    <div class='vote_button btn'> 
+     <div class='_face flex_center_col'>🤮</div>
+     <a href='/vote/{{ short_name }}/not' class='fixed_link'> </a>  
     </div>
+   </div> <!-- end of vot_buttons_wrap --> 
+    
 {% endblock %}
