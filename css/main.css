@@ -1,0 +1,386 @@
+/* css */
+
+
+body { background: #F5F5F5;
+       overflow: hidden;
+       font-family: 'Exo 2', sans-serif;
+       }
+
+
+
+.frame { height: 100vh;
+         width: 100vw;
+         position: absolute;
+         top: 0px;
+         left: 0px;
+         overflow: hidden;
+         box-sizing: border-box;
+         padding: 2.5%;
+        }
+
+
+
+
+.flex_center_col { display: flex;
+                   flex-direction: column;
+                   justify-content: center;
+                   align-items: center;
+                  }  
+
+
+.flex_row_nowrap_space { display: flex;
+                         flex-direction: row;
+                         justify-content: space-between;
+                         align-items: flex-start;
+                         flex-wrap: nowrap;
+                         }
+
+
+
+.flex_row_nowrap_space_vert-align { display: flex;
+                                    flex-direction: row;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    flex-wrap: nowrap; 
+                                  }
+
+
+
+.flex_row_center_vert { display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        } 
+
+
+
+.flex_row_center { display: flex;
+                   flex-direction: row;
+                   justify-content: center;
+                   align-items: center;
+                  }  
+
+
+
+
+
+.flex_center_col { display: flex;
+                   flex-direction: column;
+                   justify-content: center;
+                   align-items: center;
+                  } 
+
+
+
+
+/* page title */
+.title { font-size: 2em;
+         color: #f11e4f;
+         margin-bottom: 25px;
+         }
+
+
+
+/* vote card */
+.vote_card { height: 500px;
+             width: 400px;
+             position: relative;
+             margin: 0 auto;
+             border-radius: 25px;
+             background: white;
+             box-shadow: 0px 0px 25px rgba(145,145,145,.35);
+             overflow: hidden;   
+             z-index: 2;
+            }
+
+
+
+.card_pic { height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            overflow: hidden;
+            vertical-align: bottom;
+           }
+
+
+.card_pic img { height: 100%;
+                width: 100%;
+                position: absolute;
+                object-fit: cover;
+                vertical-align: bottom;
+               }
+
+
+
+
+.card_details { height: auto;
+                width: 90%;
+                background: white;
+                position: absolute; 
+                bottom: 4%;
+                left: 5%;
+                border-radius: 10px;
+                box-sizing: border-box;
+                padding: 15px 18px;
+                box-shadow: 0px 0px 25px rgba(100,100,100,.35);
+                }
+
+
+
+.name { font-size: 19px;
+        font-weight: bold;
+        }
+
+
+.date { font-size: 14px;
+        font-weight: 200;
+        color: #213939;
+        }
+
+
+
+.text { font-size: 15px;
+        margin-top: 10px;
+        color: #213939;
+      }
+
+
+
+
+
+
+
+/* voting buttons */
+.vote_buttons_wrap { height: 54px;
+                     width: 90%;
+                     max-width: 750px;
+                     position: absolute; 
+                     top: 50%;
+                     left: 50%;
+                     transform: translateY(-50%) translateX(-50%);
+                     margin-top: 35px;
+                     }
+
+
+
+.vote_button { height: 80px;
+               width: 80px;
+               position: relative;
+               text-align: center;
+               border-radius: 25px;
+               font-size: 45px;
+               }
+
+
+.vote_button ._face { height: inherit;
+                      width: inherit;
+                      border-radius: inherit;
+                      background: white;
+                      z-index: 1;
+                      position: absolute;
+                      box-shadow: 0px 0px 20px rgba(200,200,200,.35);
+                     }
+
+.vote_button:before { content: "";
+                      height: 100%;
+                      width: 100%;
+                      background: rgb(225,225,225);
+                      border-radius: inherit;
+                      position: absolute;
+                      bottom: -4px;
+                      left: 0px;
+                        }
+
+.vote_button:hover ._face { top: 4px;
+                            transition: .25s ease;
+                            box-shadow: none;
+                            }
+
+
+.vote_button._score_showing { font-size: 35px; }
+
+.vote_button._score_showing ._face { background: none;
+                                     box-shadow: none;
+                                     }
+
+
+.vote_button._score_showing:before { display: none;}
+
+.vote_button._score_showing:hover ._face { top: 0px;
+                                           transition: none;
+                                            }
+
+
+
+.vote_button span { font-size: 41px; 
+                    position: relative;
+                    margin-bottom: 5px;
+                    }
+
+
+.fixed_link { height: 100%;
+              width: 100%;
+              position: absolute;   
+              text-decoration: none;
+              z-index: 3;
+              top: 0px;
+              left: 0px;
+              }
+
+
+
+
+
+/* next card button */
+.next_card_button { font-size: 21px;
+                    margin-top: 25px;
+                    opacity: .35;
+                    height: auto;           
+                    width: 100px;
+                    position: relative;
+                  }
+
+.next_card_button img { height: auto;
+                        width: 25px;
+                        position: relative;
+                        margin-left: 10px;
+                        }
+
+
+
+.next_card_button:hover { opacity: 1; }
+
+
+
+
+
+
+._hide { display: none !important; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -- ## Results Page ## -- */
+.frame._scores { padding-left: 0px;
+                 padding-right: 0px;
+                }
+
+
+.frame._scores .title { text-align: left; 
+                        width: 380px;
+                        }
+
+
+
+
+.scores_container { height: auto;
+                    width: 100%;
+                    position: relative;
+                    font-size: 0px;
+                    overflow: auto;
+                    margin-top: -25px;
+                   }
+
+
+.scores_container::-webkit-scrollbar { width: 0px; }
+
+.scores_container::-webkit-scrollbar-thumb,
+.scores_container::-webkit-scrollbar-track { background: transparent; }
+
+.scores_list { white-space: nowrap;
+               width: 380px;
+               overflow: visible;
+               position: relative;
+               padding: 25px 0px;
+                }
+
+
+.score_card { height: auto;
+              width: 100%;
+              background: white;
+              position: relative;
+              display: inline-block;
+              white-space: normal;
+              border-radius: 20px;
+              box-shadow: 0px 0px 25px rgba(150,150,150,.30);
+              box-sizing: border-box;
+              padding: 3%;
+              }
+
+
+
+.score_card:not(:first-of-type) { margin-left: 12%; }
+
+.score_card:last-child { margin-right: 25%; }
+
+
+
+.score_card:first-of-type:after { content: "🔥";
+                                  height: 50px;
+                                  width: 50px;
+                                  position: absolute;
+                                  top: -10px;
+                                  right: -10px;
+                                  background: white;
+                                  border-radius: 50%;
+                                  z-index: 2;
+                                  font-size: 30px;
+                                  text-align: center;   
+                                  display: flex;
+                                  flex-direction: column;
+                                  justify-content: center;
+                                  align-items: center;
+                                  box-shadow: 10px -1px 25px rgba(150,150,150,.30);
+                                 }
+
+.score_pic { height: 280px;
+             width: 100%;
+             position: relative;
+             overflow: hidden;
+             border-radius: 15px;
+             }
+
+
+.score_pic img { height: 100%;
+                 width: 100%;
+                 position: absolute;
+                 bottom: 0px;
+                 vertical-align: bottom;
+                 object-fit: cover;
+                }
+
+
+.score_text_wrap { height: auto;
+                   width: 100%;
+                   background: white;
+                   box-sizing: border-box;
+                   padding: 5% 10px;
+                   padding-bottom: 2%;
+                  }
+
+
+
+.score_card .name { font-size: 17px; }
+
+.score_card .text { margin-top: 0px; }
+
+
+.frame._scores .next_card_button { width: 380px; 
+                                   margin-top: 0px;
+                                }
