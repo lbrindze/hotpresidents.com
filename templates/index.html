@@ -2,15 +2,20 @@
 <html>
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hot or Not Presidents</title>
   <link rel="stylesheet" href="/css/main.css">
+ <link rel="stylesheet" href="/css/mobile.css">
 </head>
 <body>
     
  <div class='frame flex_center_col _scores'>
     
      
-   <h3 class='title'> Hotus or Notus?</h3>
+   <div class='header'>
+    <h3 class='title'> Hotus or Notus? </h3>
+   </div> <!-- end of header -->
+     
     <div class='scores_container flex_center_col'>
    <div class='scores_list'>
     {% for president in presidents %}
