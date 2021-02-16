@@ -1,9 +1,9 @@
 {% extends "base_president.html" %}
 {% block content %}
-    <h3 class='title'>
-     <span class='_score_counter _hotus' data-count='{{ hot }}'>Hotus</span> or 
-     <span class='_score_counter _notus' data-count='{{ not }}'>Notus</span> 
-    </h3>
+    <div class='header'>
+    <h3 class='title'> Score: </h3>
+    <div class='mobile_next_button'> <img src='/static/black-arrow.svg'> <a href="/" class='fixed_link'></a> </div> 
+   </div> <!-- end of header -->
       
    <div class='vote_card'>
     <div class='card_pic'> <img src="{{ image_url }}" alt="A photo of {{ name }}"> </div>

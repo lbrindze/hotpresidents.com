@@ -74,11 +74,34 @@ body { background: #F5F5F5;
 
 
 
+div { position: relative; }
+
+
 /* page title */
+.header { margin-bottom: 25px;}
+
 .title { font-size: 2em;
          color: #f11e4f;
-         margin-bottom: 25px;
-         }
+         padding: 0;
+         margin: 0;
+        }
+
+
+.mobile_next_button { height: auto;
+                      width: 25px;
+                      position: absolute;
+                      top: 50%;
+                      transform: translateY(-50%);
+                      right: 0px;
+                      display: none;
+                    }
+
+
+.mobile_next_button img { height: auto;
+                          width: 100%;
+                          vertical-align: bottom;
+                         }
+
 
 
 
@@ -237,31 +260,7 @@ body { background: #F5F5F5;
 
 
 
-/* Card Score Vie*/
-[data-page='stats'] .title span { display: inline-block; }
-
-[data-page='stats'] .title span:not(._score_counter),
-[data-page='stats'] .title ._score_counter { opacity: .25; }
-
-
-[data-page='stats'] .title ._score_counter._active { opacity: 1; 
-                                                     animation: flash .35s 2 ease;
-                                                   }
-
-
-
-
-._score_counter { position: relative; }
-
-
-@keyframes flash{
-    
-    0% { opacity: 1; }
-    50% { opacity: .75; transform: scale(1.2,1.2); }
-    100% { opacity: 1; transform: scale(1,1); }
-    
-} /* end of flash*/
-
+/* Card Score View*/
 
 /* next card button */
 .next_card_button { font-size: 21px;
@@ -276,6 +275,7 @@ body { background: #F5F5F5;
                         width: 25px;
                         position: relative;
                         margin-left: 10px;
+                        vertical-align: bottom;
                         }
 
 
@@ -305,15 +305,17 @@ body { background: #F5F5F5;
 
 
 
+
+
 /* -- ## Results Page ## -- */
 .frame._scores { padding-left: 0px;
                  padding-right: 0px;
                  }
 
 
-.frame._scores .title { width: auto;
+.frame._scores .header { width: auto;
                         min-width: 380px;
-                       }
+                        }
 
 
 
