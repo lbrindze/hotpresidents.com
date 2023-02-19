@@ -10,13 +10,17 @@
     <h3>Vote now!</h3>
   </p>
 
+  <div class="presidents-list">
   <ul>
-  {% for president in presidents %}
-    <li>
-      <img src="{{ president.image_url }}" alt="A photo of {{ president.name }}" width="150">
-      name: <a href='/vote/{{ president.short_name }}'>{{ president.name }}</a> | score: {{ president.score }}
-    </li>
-  {% endfor %}
+    {% for president in presidents %}
+      <li>
+        <img src="{{ president.image_url }}" alt="A photo of {{ president.name }}" width="150">
+        name: <a href='/vote/{{ president.short_name }}'>{{ president.name }}</a> | score: {{ president.score }}
+      </li>
+    {% endfor %}
   </ul>
+</div>
+
 </body>
+
 </html>
