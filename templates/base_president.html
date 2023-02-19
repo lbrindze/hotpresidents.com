@@ -2,6 +2,25 @@
 <html>
 
 <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Hotus or Notus?">
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="{% block og_title %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Hotus or Notus?{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}/static/img/hot_presidents.png{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}{% endblock %}">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
+
+  
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hot or Not Presidents ({{ name }})</title>
